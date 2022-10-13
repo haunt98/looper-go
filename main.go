@@ -55,11 +55,11 @@ func main() {
 		before, after := commands[i][0], commands[i][1]
 		i += 1
 
-		cmd := exec.Command(before, after)
+		cmd := exec.Command(before, strings.Split(after, " ")...)
 		cmd.Stdout = os.Stdout
 		if err := cmd.Run(); err != nil {
 			fmt.Printf("exec: failed to run command %s %s: %s\n", before, after, err)
-			continue
+			break
 		}
 
 		time.Sleep(*waitDuration)
@@ -69,7 +69,7 @@ func main() {
 			cmd.Stdout = os.Stdout
 			if err := cmd.Run(); err != nil {
 				fmt.Printf("exec: failed to run command clear: %s\n", err)
-				continue
+				break
 			}
 		}
 	}
